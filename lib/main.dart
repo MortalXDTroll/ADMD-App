@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'models/user.dart';
+import 'models/bank_account.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ADMD LAB 1 Flutter Demo',
+      title: 'My Application',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Custom Page'),
+      home: const MyHomePage(title: 'My Application'),
     );
   }
 }
@@ -54,18 +56,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  
+  final List<User> users = [
+    User(name: 'Tom'),
+    User(name: 'Pearl', age: 67),
+    User(name: 'Marlon', age: 25, email: 'marlon@yahoo.com'),
+  ];
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  final List<BankAccount> accounts = [
+    BankAccount(holderName: 'Tom Pearl', balance: 99999.9, bankBranch: 'Militari')
+      ..initializeAccount('A-001'),
+
+    BankAccount(holderName: 'Joji')
+      ..initializeAccount('A-002'),
+
+    BankAccount(holderName: 'Diplo', bankBranch: 'Ferentari'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -86,37 +92,31 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+        // child: ListView.builder(
+        //   itemCount: users.length,
+        //   itemBuilder: (context, i) {
+        //     final user = users[i];
+
+        //     return ListTile(
+        //       title: Text('Name: ${user.name}'), 
+        //       subtitle: Text('Age: ${user.getDisplayAge()} | Email: ${user.email ?? "Not provided"}'), 
+        //     );
+        //   },
+        // ),
+        
+        child: ListView.builder(
+          itemCount: accounts.length,
+          itemBuilder: (context, i) {
+            final a = accounts[i];
+
+            return ListTile(
+              title: Text(a.holderName),
+              subtitle: Text('${a.getAccountDisplay()} | Branch: ${a.bankBranch ?? "N/A"}'),
+            );
+          }
+        )
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+
     );
   }
 }
