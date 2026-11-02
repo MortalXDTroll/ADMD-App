@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lab1_app/screens/todo_screen.dart';
 import 'models/user.dart';
 import 'models/bank_account.dart';
 
@@ -32,7 +33,8 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'My Application'),
+      //home: const MyHomePage(title: 'My Application'),
+      home: TodoScreen(),
     );
   }
 }
